@@ -44,12 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.titleService.setTitle(this.title)
     this.store.dispatch(appInit());
-    window.addEventListener("load", function () {
-      setTimeout(function () {
-        // Hide the address bar:
-        window.scrollTo(0, 1);
-      }, 0);
-    });
+    window.addEventListener("load", () => setTimeout(() => window.scrollTo(0, 1), 0));
   }
 
   ngOnDestroy(): void {
