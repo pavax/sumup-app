@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from "@angular/core";
+import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {appUpdateVersion} from "../../store/core.actions";
@@ -7,15 +7,11 @@ import {appUpdateVersion} from "../../store/core.actions";
   selector: 'app-update-dialog',
   templateUrl: 'update.dialog.component.html',
 })
-export class UpdateDialogComponent implements OnInit {
+export class UpdateDialogComponent {
   constructor(
     private dialogRef: MatDialogRef<UpdateDialogComponent>,
     private store: Store,
     @Inject(MAT_DIALOG_DATA) private data: any) {
-  }
-
-  ngOnInit() {
-
   }
 
   installUpdate() {
