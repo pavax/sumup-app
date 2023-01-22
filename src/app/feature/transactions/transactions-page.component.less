@@ -6,8 +6,12 @@
   margin-bottom: 2vh;
 }
 
+
 .filter-card mat-form-field + mat-form-field {
   margin-left: 8px;
+  @media only screen and (max-width: 600px) {
+    margin-left: 0;
+  }
 }
 
 .transaction-card-content {
