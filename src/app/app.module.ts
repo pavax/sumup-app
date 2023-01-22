@@ -15,6 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {environment} from "../environments/environment";
 import {ServiceWorkerModule} from '@angular/service-worker';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {ServiceWorkerModule} from '@angular/service-worker';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatDialogModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

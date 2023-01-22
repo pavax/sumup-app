@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subject} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {AuthService} from "./core/auth.service";
@@ -8,14 +8,14 @@ import {environment} from "../environments/environment";
 import {Store} from "@ngrx/store";
 import {appInit} from "./core/store/core.actions";
 import * as CoreSelectors from "./core/store/core.selectors";
-import {CoreState} from "./core/store/core.reducer";
+import {AppState} from "./core/core.module";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -26,10 +26,13 @@ export class AppComponent implements OnInit {
 
   isOnline$ = this.store.select(CoreSelectors.selectHasNetworkConnectivity);
 
+  private destroy$ = new Subject();
+
   constructor(private readonly breakpointObserver: BreakpointObserver,
               private readonly authService: AuthService,
-              private readonly store: Store<any>,
-              private readonly titleService: Title,) {
+              private readonly store: Store<AppState>,
+              private readonly titleService: Title,
+  ) {
   }
 
   logout() {
@@ -40,4 +43,10 @@ export class AppComponent implements OnInit {
     this.titleService.setTitle(environment.title)
     this.store.dispatch(appInit());
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
 }

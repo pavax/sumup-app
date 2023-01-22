@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {State} from "./store/transactions.reducer";
 import * as TransactionsActions from "./store/transactions.actions";
 import * as TransactionsSelectors from "./store/transactions.selectors";
-import {selectAllTransactionsLoaded, TransactionViewModel} from "./store/transactions.selectors";
+import {TransactionViewModel} from "./store/transactions.selectors";
+import * as CoreSelectors from "../../core/store/core.selectors";
 import {FormBuilder, FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {debounceTime, Subject, takeUntil} from "rxjs";
 import {TransactionStatus} from "../../core/transactions-api.service";
 import {ErrorStateMatcher} from "@angular/material/core";
-import {filter} from "rxjs/operators";
+import {filter, map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 
@@ -39,10 +39,11 @@ export class TransactionsPageComponent implements OnInit, OnDestroy {
 
   viewModel$ = this.store.select(TransactionsSelectors.selectNewViewModel);
 
+  isReadOnly$ = this.store.select(CoreSelectors.selectHasNetworkConnectivity).pipe(map(value => !value));
 
   private destroy$ = new Subject();
 
-  public constructor(private store: Store<State>, private fb: FormBuilder, private snackBar: MatSnackBar) {
+  public constructor(private store: Store<any>, private fb: FormBuilder, private snackBar: MatSnackBar) {
   }
 
   ngOnDestroy(): void {
@@ -57,6 +58,16 @@ export class TransactionsPageComponent implements OnInit, OnDestroy {
     ).subscribe(() => {
       this.onSubmit();
     });
+
+    this.isReadOnly$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isReadOnly => {
+        if (isReadOnly) {
+          this.filterForm.disable({emitEvent: false});
+        } else {
+          this.filterForm.enable({emitEvent: false});
+        }
+      })
 
     this.store.select(TransactionsSelectors.selectAllTransactionsLoaded).pipe(
       filter(value => value),
@@ -93,15 +104,6 @@ export class TransactionsPageComponent implements OnInit, OnDestroy {
     }));
   }
 
-  private prepareEndDate(): Date | undefined {
-    if (!this.filterForm.value.end) {
-      return undefined;
-    }
-    const endDate = new Date(this.filterForm.value.end!)
-    endDate.setHours(24, 0, 0, 0);
-    return endDate;
-  }
-
   loadMore() {
     this.store.dispatch(TransactionsActions.loadMoreTransactions());
   }
@@ -113,5 +115,14 @@ export class TransactionsPageComponent implements OnInit, OnDestroy {
   clearDateRange() {
     this.filterForm.controls.start.setValue(null);
     this.filterForm.controls.end.setValue(null);
+  }
+
+  private prepareEndDate(): Date | undefined {
+    if (!this.filterForm.value.end) {
+      return undefined;
+    }
+    const endDate = new Date(this.filterForm.value.end!)
+    endDate.setHours(24, 0, 0, 0);
+    return endDate;
   }
 }

@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
-import {CoreState} from './core.reducer';
+import {AppState} from "../core.module";
 
-export const selectCoreState = (state: { core: CoreState }) => {
-  return state.core;
+export const selectCoreState = (appState: AppState) => {
+  return appState.core;
 };
 
 export const selectHasNetworkConnectivity = createSelector(

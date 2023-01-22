@@ -20,7 +20,15 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>Sumup</span>
-      <span> - {{isOnline$ | async}}</span>
+      <span class="example-spacer"></span>
+      <div *ngIf="{isOnline: isOnline$ | async} as context ">
+        <mat-icon *ngIf="context.isOnline">
+          wifi_on
+        </mat-icon>
+        <mat-icon *ngIf="!context.isOnline">
+          wifi_off
+        </mat-icon>
+      </div>
     </mat-toolbar>
 
     <div class="content">

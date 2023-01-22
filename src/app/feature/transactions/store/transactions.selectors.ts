@@ -133,8 +133,8 @@ export const selectNewViewModel = createSelector(selectTransactions, selectTrans
       isLoading: loading,
       allTransactionsLoaded: allTransactionsLoaded,
       isLoadingMore: isLoadingMore,
-      minTimestamp: Math.min(...timestamps),
-      maxTimestamp: Math.max(...timestamps)
+      minTimestamp: timestamps.length ? Math.min(...timestamps) : undefined,
+      maxTimestamp: timestamps.length ? Math.max(...timestamps) : undefined,
     }
   });
 

@@ -6,6 +6,7 @@ import {AuthGuardWithForcedLogin} from "./auth-guard-with-forced-login.service";
 
 
 import * as fromCore from './store/core.reducer';
+import {CoreState} from './store/core.reducer';
 
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthConfig, OAuthModule, OAuthModuleConfig, OAuthStorage} from "angular-oauth2-oidc";
@@ -21,6 +22,9 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {CoreEffects} from "./store/core.effects";
+import {OfflineDialogComponent} from "./components/dialog/offline.dialog.component";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 // We need a factory since localStorage is not available at AOT build time
 function storageFactory(): OAuthStorage {
@@ -33,19 +37,26 @@ function authAppInitializerFactory(authService: AuthService): () => Promise<any>
 
 registerLocaleData(localeDECH);
 
+export interface AppState {
+  core: CoreState
+}
+
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    OfflineDialogComponent
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     OAuthModule.forRoot(),
-    StoreModule.forRoot({core: fromCore.reducer}),
+    StoreModule.forRoot<AppState>({core: fromCore.reducer}),
     EffectsModule.forRoot([CoreEffects]),
     MatDatepickerModule,
     MatDateFnsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [
     AuthService,
