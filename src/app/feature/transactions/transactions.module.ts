@@ -24,10 +24,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {CloseAfterSelectDirective} from "./close-after-select.directive";
 
 @NgModule({
   declarations: [
-    TransactionsPageComponent
+    TransactionsPageComponent,
+    CloseAfterSelectDirective
   ],
   imports: [
     CommonModule,
