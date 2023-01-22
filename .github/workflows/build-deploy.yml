@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    environment: prod
 
     # https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#jobsjob_idruns-on
     runs-on: ubuntu-latest
@@ -34,7 +35,6 @@ jobs:
           name: dist
           # Optional, a directory where to extract artifact(s), defaults to the current directory
           path: dist
-
 
 
       # deploy! adapt to your needs.
