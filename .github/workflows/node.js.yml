@@ -35,9 +35,9 @@ jobs:
       env:
         SUMUP_CLIENTSECRET: ${{ secrets.SUMUP_CLIENTSECRET }}
         SUMUP_CLIENTID: ${{ secrets.SUMUP_CLIENTID }}
-        SUMUP_REDIRECTURI: $SUMUP_REDIRECTURI
-        SUMUP_LOGOUTURL: $SUMUP_LOGOUTURL
-        APP_TITLE: $APP_TITLE
+        SUMUP_REDIRECTURI: "$SUMUP_REDIRECTURI"
+        SUMUP_LOGOUTURL: "$SUMUP_LOGOUTURL"
+        APP_TITLE: "$APP_TITLE"
 
     - run: npm run build-prod
 
