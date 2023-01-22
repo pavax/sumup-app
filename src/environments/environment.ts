@@ -5,5 +5,5 @@ export const environment = {
   sumup_redirectUri: 'http://localhost:4200',
   sumup_logoutUrl: 'http://localhost:4200',
   pageLimit: 100,
-  title: "Sumup App"
+  title: "local"
 };

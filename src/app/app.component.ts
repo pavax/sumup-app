@@ -26,6 +26,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isOnline$ = this.store.select(CoreSelectors.selectHasNetworkConnectivity);
 
+  title = environment.title;
+
   private destroy$ = new Subject();
 
   constructor(private readonly breakpointObserver: BreakpointObserver,
@@ -40,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle(environment.title)
+    this.titleService.setTitle(this.title)
     this.store.dispatch(appInit());
   }
 

@@ -19,7 +19,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Sumup</span>
+      <span>{{title}} - sumup</span>
       <span class="example-spacer"></span>
       <div *ngIf="{isOnline: isOnline$ | async} as context ">
         <mat-icon *ngIf="context.isOnline">
