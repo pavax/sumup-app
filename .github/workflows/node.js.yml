@@ -27,7 +27,7 @@ jobs:
     - run: npm ci
 
 
-    - run: echo 'Hi ${{ env.SUMUP_REDIRECTURI }}'  # Hi Mona
+    - run: echo 'Hi ${{ vars.SUMUP_REDIRECTURI }}'  # Hi Mona
 
     - name: Replace secret
       uses: cschleiden/replace-tokens@v1
@@ -38,9 +38,9 @@ jobs:
       env:
         SUMUP_CLIENTSECRET: ${{ secrets.SUMUP_CLIENTSECRET }}
         SUMUP_CLIENTID: ${{ secrets.SUMUP_CLIENTID }}
-        SUMUP_REDIRECTURI: ${{ env.SUMUP_REDIRECTURI }}
-        SUMUP_LOGOUTURL: " ${{ env.SUMUP_LOGOUTURL }}"
-        APP_TITLE: " ${{ env.APP_TITLE }}"
+        SUMUP_REDIRECTURI: ${{ vars.SUMUP_REDIRECTURI }}
+        SUMUP_LOGOUTURL: ${{ vars.SUMUP_LOGOUTURL }}
+        APP_TITLE: ${{ vars.APP_TITLE }}
 
     - run: npm run build-prod
 
