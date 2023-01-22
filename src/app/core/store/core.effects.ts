@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {BehaviorSubject, fromEvent, interval, merge} from "rxjs";
+import {BehaviorSubject, fromEvent, interval, merge, timer} from "rxjs";
 import {filter, map} from "rxjs/operators";
 import * as CoreActions from "./core.actions";
 import {MatDialog} from "@angular/material/dialog";
@@ -32,7 +32,7 @@ export class CoreEffects {
   }, {dispatch: false});
 
   checkForUpdates$ = createEffect(() => {
-    return interval(1000 * 60 * 60).pipe(
+    return timer(1000, 1000 * 60 * 60).pipe(
       map(() => this.updates.checkForUpdate().then(() => console.log('checking for updates')))
     );
   }, {dispatch: false});
