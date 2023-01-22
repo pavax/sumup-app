@@ -14,18 +14,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: "16.x"
         cache: 'npm'
 
     - run: npm ci
@@ -44,5 +39,11 @@ jobs:
         APP_TITLE: $APP_TITLE
 
     - run: npm run build-prod
+
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist/sumup-app
 
     #- run: npm test
