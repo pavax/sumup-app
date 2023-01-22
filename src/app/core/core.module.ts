@@ -4,6 +4,9 @@ import {LoginComponent} from './components/login/login.component';
 import {AuthService} from "./auth.service";
 import {AuthGuardWithForcedLogin} from "./auth-guard-with-forced-login.service";
 
+
+import * as fromCore from './store/core.reducer';
+
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthConfig, OAuthModule, OAuthModuleConfig, OAuthStorage} from "angular-oauth2-oidc";
 import {authConfig} from "./auth-config";
@@ -14,6 +17,10 @@ import {MatDateFnsModule} from "@angular/material-date-fns-adapter";
 import {de} from 'date-fns/locale';
 import localeDECH from "@angular/common/locales/de-CH";
 import {RefreshTokenAuthInterceptor} from "./refresh-token-auth-interceptor.service";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {StoreModule} from "@ngrx/store";
+import {EffectsModule} from "@ngrx/effects";
+import {CoreEffects} from "./store/core.effects";
 
 // We need a factory since localStorage is not available at AOT build time
 function storageFactory(): OAuthStorage {
@@ -34,8 +41,11 @@ registerLocaleData(localeDECH);
     CommonModule,
     HttpClientModule,
     OAuthModule.forRoot(),
+    StoreModule.forRoot({core: fromCore.reducer}),
+    EffectsModule.forRoot([CoreEffects]),
     MatDatepickerModule,
-    MatDateFnsModule
+    MatDateFnsModule,
+    MatSnackBarModule
   ],
   providers: [
     AuthService,

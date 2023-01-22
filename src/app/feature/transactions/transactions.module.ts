@@ -53,8 +53,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatToolbarModule,
     MatIconModule,
     MatExpansionModule,
-    ScrollingModule,
-    MatSnackBarModule
+    ScrollingModule
   ]
 })
 export class TransactionsModule {

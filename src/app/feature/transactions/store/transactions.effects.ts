@@ -6,6 +6,7 @@ import * as TransactionsActions from './transactions.actions';
 import * as TransactionSelector from './transactions.selectors';
 import {TransactionsApiService} from "../../../core/transactions-api.service";
 import {Store} from "@ngrx/store";
+import {ErrorHandler} from "../../../core/errorHandler";
 
 
 @Injectable()
@@ -74,7 +75,19 @@ export class TransactionsEffects {
       })
     );
   });
+  handleErrors$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(
+        TransactionsActions.fetchTransactionDetailsFailure,
+        TransactionsActions.fetchTransactionsFailure,
+        TransactionsActions.loadMoreTransactionsFailure,
+      ),
+      map(action => {
+        this.errorHandler.handle(action.error);
+      })
+    );
+  }, {dispatch: false})
 
-  constructor(private actions$: Actions, private transactionsApiService: TransactionsApiService, private store: Store) {
+  constructor(private actions$: Actions, private transactionsApiService: TransactionsApiService, private store: Store, private readonly errorHandler: ErrorHandler) {
   }
 }
