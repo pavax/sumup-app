@@ -1,0 +1,38 @@
+# ./.github/workflows/build-build-deploy.yml
+
+name: deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+
+    # https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#jobsjob_idsteps
+    steps:
+      - name: Download build artifact
+        # https://github.com/actions/download-artifact
+        uses: actions/download-artifact@v2
+        with:
+          # the same name as used in the build workflow
+          name: build-artifact
+          # where to save the artifact
+          # using the same path as in the build workflow "restores" the state from the end of the build workflow
+          path: dist
+
+      # deploy! adapt to your needs.
+      - name: Upload via FTP
+        # https://github.com/marketplace/actions/ftp-action
+        # 'with' config is specific to the 'sebastianpopp/ftp-action' action
+        uses: sebastianpopp/ftp-action@releases/v2
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # use the same path as download-artifact downloaded the build artifact to
+          localDir: dist
+          # adapt to your needs
+          remoteDir: /
