@@ -14,6 +14,6 @@ export const appOffline = createAction(
   '[Core] App offline'
 );
 
-export const appUpdateVersion = createAction(
-  '[Core] App Update Version'
+export const updateSWVersion = createAction(
+  '[Core] Update SW Version'
 );

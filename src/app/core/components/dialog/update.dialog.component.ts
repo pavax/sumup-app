@@ -1,7 +1,7 @@
 import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
-import {appUpdateVersion} from "../../store/core.actions";
+import {updateSWVersion} from "../../store/core.actions";
 
 @Component({
   selector: 'app-update-dialog',
@@ -15,6 +15,6 @@ export class UpdateDialogComponent {
   }
 
   installUpdate() {
-    this.store.dispatch(appUpdateVersion());
+    this.store.dispatch(updateSWVersion());
   }
 }

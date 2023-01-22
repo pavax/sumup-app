@@ -6,7 +6,7 @@ import * as CoreActions from "./core.actions";
 import {MatDialog} from "@angular/material/dialog";
 import {OfflineDialogComponent} from "../components/dialog/offline.dialog.component";
 import {SwUpdate} from "@angular/service-worker";
-import {UpdateDialogComponent} from "../components/update/update.dialog.component";
+import {UpdateDialogComponent} from "../components/dialog/update.dialog.component";
 
 @Injectable()
 export class CoreEffects {
@@ -31,20 +31,22 @@ export class CoreEffects {
     );
   }, {dispatch: false});
 
-  checkForUpdates$ = createEffect(() => {
-    return timer(1000, 1000 * 60).pipe(
+  checkForSWUpdates$ = createEffect(() => {
+    return timer(1000, 1000 * 60 * 60).pipe(
       map(() => this.updates.checkForUpdate().then(() => console.log('checking for updates')))
     );
   }, {dispatch: false});
 
-  updateSwVersion$ = createEffect(() => {
+  updateSWVersion$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(CoreActions.appUpdateVersion),
-      map(() => this.updates.activateUpdate().then(() => document.location.reload()))
+      ofType(CoreActions.updateSWVersion),
+      map(() => this.updates.activateUpdate()
+        .then(() => console.log('install update'))
+        .then(() => document.location.reload()))
     );
   }, {dispatch: false});
 
-  listenForUpdates$ = createEffect(() => {
+  listenForSWUpdates$ = createEffect(() => {
     return this.updates.versionUpdates.pipe(
       filter((state) => state.type === "VERSION_DETECTED"),
       map(() => this.dialog.open(UpdateDialogComponent))
