@@ -25,6 +25,7 @@ import {CoreEffects} from "./store/core.effects";
 import {OfflineDialogComponent} from "./components/dialog/offline.dialog.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
+import {UpdateDialogComponent} from "./components/update/update.dialog.component";
 
 // We need a factory since localStorage is not available at AOT build time
 function storageFactory(): OAuthStorage {
@@ -44,7 +45,8 @@ export interface AppState {
 @NgModule({
   declarations: [
     LoginComponent,
-    OfflineDialogComponent
+    OfflineDialogComponent,
+    UpdateDialogComponent
   ],
   imports: [
     CommonModule,
