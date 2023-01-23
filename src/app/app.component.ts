@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subject} from "rxjs";
+import {delay, Observable, of, Subject} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {AuthService} from "./core/auth.service";
@@ -21,7 +21,6 @@ export class AppComponent implements OnInit, OnDestroy {
       map(result => result.matches),
       shareReplay()
     );
-
 
   isLoggedIn$ = this.authService.isAuthenticated$;
 
