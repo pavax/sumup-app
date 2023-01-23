@@ -24,10 +24,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {SharedModule} from "../../shared/shared.module";
+import {ExamplePageComponent} from "./example-page.component";
 
 @NgModule({
   declarations: [
-    TransactionsPageComponent
+    TransactionsPageComponent,
+    ExamplePageComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import {SharedModule} from "../../shared/shared.module";
     RouterModule.forChild([
       {path: '', redirectTo: 'transactions', pathMatch: 'full'},
       {path: 'transactions', component: TransactionsPageComponent},
+      {path: 'example', component: ExamplePageComponent},
     ]),
     StoreModule.forFeature(fromTransactions.transactionsFeatureKey, fromTransactions.reducer),
     EffectsModule.forFeature([TransactionsEffects]),
