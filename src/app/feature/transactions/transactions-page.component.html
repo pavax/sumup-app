@@ -73,55 +73,50 @@
       </mat-list-item>
     </mat-list>
 
-    <div class="day-summary" *ngFor="let entry of viewModel.transactions;">
-      <mat-list class="list-entry">
-        <mat-list-item class="day-list-item">
-          <h3 matListItemTitle>{{entry.day | date}}</h3>
-          <span matListItemMeta class="list-meta total">{{entry.totalAmount | currency:'CHF'}}</span>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item *ngFor="let tx of entry.transactions; first as first; last as last; trackBy:identify"
-                       [class.padding-list-item]="first"
-                       [ngClass]="{'error': tx.failed, 'info': tx.isRefund, 'success': !tx.failed }">
-          <mat-icon matListItemIcon>{{tx.icon}}</mat-icon>
-          <span matListItemTitle [ngClass]="{'deleted': tx.failed}">{{tx.transaction_code}}</span>
+    <mat-list class="list-entry" *ngFor="let entry of viewModel.transactions;">
+      <mat-list-item class="day-list-item">
+        <h3 matListItemTitle>{{entry.day | date}}</h3>
+        <span matListItemMeta class="list-meta total">{{entry.totalAmount | currency:'CHF'}}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item *ngFor="let tx of entry.transactions; first as first; last as last; trackBy:identify"
+                     [class.padding-list-item]="first"
+                     [ngClass]="{'error': tx.failed, 'info': tx.isRefund, 'success': !tx.failed }">
+        <mat-icon matListItemIcon>{{tx.icon}}</mat-icon>
+        <div matListItemTitle [ngClass]="{'deleted': tx.failed}">{{tx.transaction_code}}</div>
 
-          <div matListItemLine>
-            {{tx.timestamp | date:'HH:mm'}} - {{tx.statusText}}
-          </div>
+        <div matListItemLine>
+          {{tx.timestamp | date:'HH:mm'}} - {{tx.statusText}}
+        </div>
 
-          <div matListItemLine *ngIf="tx.tip_amount ">
-            Trinkgeld: {{tx.tip_amount | currency:'CHF'}}
-          </div>
+        <div matListItemLine *ngIf="tx.tip_amount ">
+          Trinkgeld: {{tx.tip_amount | currency:'CHF'}}
+        </div>
 
-          <div matListItemLine *ngIf="tx.payout_amount ">
-            Auszahlung: {{tx.payout_amount | currency:'CHF'}}
-          </div>
+        <div matListItemLine *ngIf="tx.payout_amount ">
+          Auszahlung: {{tx.payout_amount | currency:'CHF'}}
+        </div>
 
-          <div matListItemLine *ngIf="tx.payout_amount ">
-            Gebühr: {{tx.payout_feeAmount | currency:'CHF'}}
-          </div>
+        <div matListItemLine *ngIf="tx.payout_amount ">
+          Gebühr: {{tx.payout_feeAmount | currency:'CHF'}}
+        </div>
 
-          <div matListItemMeta class="list-meta" [ngClass]="{'deleted': tx.failed}">
-            {{tx.amount | currency:'CHF'}}
-          </div>
+        <div matListItemMeta class="list-meta" [ngClass]="{'deleted': tx.failed}">
+          {{tx.amount | currency:'CHF'}}
+        </div>
 
-          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-        </mat-list-item>
+        <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+      </mat-list-item>
+    </mat-list>
 
-      </mat-list>
-    </div>
+    <mat-list-item (click)="loadMore()"
+                   [disabled]="viewModel.isLoadingMore || (isReadOnly$ | async) || viewModel.allTransactionsLoaded">
+      <div matListItemTitle style="text-align: center">Mehr laden</div>
+    </mat-list-item>
 
-    <!--    <div style="text-align:center" *ngIf="!viewModel.allTransactionsLoaded">
-          <button mat-flat-button
-                  color="basic"
-                  [class.spinner]="viewModel.isLoadingMore"
-                  [disabled]="viewModel.isLoadingMore || (isReadOnly$ | async)"
-                  (click)="loadMore()">Mehr laden
-          </button>
-        </div>-->
   </ng-template>
 </div>
+
 
 
 

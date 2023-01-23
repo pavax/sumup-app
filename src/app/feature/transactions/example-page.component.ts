@@ -5,6 +5,7 @@ import {delay, of} from "rxjs";
 @Component({
   selector: 'app-example-page',
   templateUrl: './example-page.component.html',
+  styleUrls: ['example-page.component.less']
 })
 export class ExamplePageComponent {
 

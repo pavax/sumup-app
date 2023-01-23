@@ -1,10 +1,7 @@
 <div *ngIf="myContent$ | async as content">
-  <mat-list class="list-entry">
-    <mat-list-item class="day-list-item" *ngFor="let e of content">
+    <span *ngFor="let e of content">
       {{e}}
-    </mat-list-item>
-  </mat-list>
+    </span>
 </div>
 
-
-
+<button mat-button>Basic</button>
