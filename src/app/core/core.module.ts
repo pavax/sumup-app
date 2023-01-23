@@ -6,7 +6,6 @@ import {AuthGuardWithForcedLogin} from "./auth-guard-with-forced-login.service";
 
 
 import * as fromCore from './store/core.reducer';
-import {CoreState} from './store/core.reducer';
 
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthConfig, OAuthModule, OAuthModuleConfig, OAuthStorage} from "angular-oauth2-oidc";
@@ -38,21 +37,19 @@ function authAppInitializerFactory(authService: AuthService): () => Promise<any>
 
 registerLocaleData(localeDECH);
 
-export interface AppState {
-  core: CoreState
-}
-
 @NgModule({
   declarations: [
     LoginComponent,
     OfflineDialogComponent,
-    UpdateDialogComponent
+    UpdateDialogComponent,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     OAuthModule.forRoot(),
-    StoreModule.forRoot<AppState>({core: fromCore.reducer}),
+    StoreModule.forRoot({
+      [fromCore.FEATURE_NAME]: fromCore.reducer
+    }),
     EffectsModule.forRoot([CoreEffects]),
     MatDatepickerModule,
     MatDateFnsModule,

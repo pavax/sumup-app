@@ -8,6 +8,9 @@ export interface CoreState {
 export const initialState: CoreState = {
   hasNetworkConnectivity: true
 };
+
+export const FEATURE_NAME = "core";
+
 export const reducer = createReducer(initialState,
   on(CoreActions.appOffline, (state) => ({
     ...state,

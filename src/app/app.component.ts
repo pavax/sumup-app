@@ -8,7 +8,7 @@ import {environment} from "../environments/environment";
 import {Store} from "@ngrx/store";
 import {appInit} from "./core/store/core.actions";
 import * as CoreSelectors from "./core/store/core.selectors";
-import {AppState} from "./core/core.module";
+import {CoreState} from "./core/store/core.reducer";
 
 @Component({
   selector: 'app-root',
@@ -22,6 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
       shareReplay()
     );
 
+
   isLoggedIn$ = this.authService.isAuthenticated$;
 
   isOnline$ = this.store.select(CoreSelectors.selectHasNetworkConnectivity);
@@ -32,10 +33,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private readonly breakpointObserver: BreakpointObserver,
               private readonly authService: AuthService,
-              private readonly store: Store<AppState>,
+              private readonly store: Store<CoreState>,
               private readonly titleService: Title,
   ) {
   }
+
 
   logout() {
     this.authService.logout();
