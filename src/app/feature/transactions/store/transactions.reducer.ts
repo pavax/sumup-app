@@ -65,7 +65,7 @@ export const reducer = createReducer(
   on(TransactionsActions.fetchTransactionDetails, (state, action) => ({
     ...state,
     loading: true,
-    isLoadingMore: false,
+    isLoadingMore: true,
   })),
   on(TransactionsActions.fetchTransactionDetailsSuccess, (state, action) => ({
     ...state,

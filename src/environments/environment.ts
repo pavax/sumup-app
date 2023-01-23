@@ -4,6 +4,6 @@ export const environment = {
   sumup_clientId: 'cc_classic_0syTLGdamSXQPDDiNYHO5c642Iav0',
   sumup_redirectUri: 'http://localhost:4200',
   sumup_logoutUrl: 'http://localhost:4200',
-  pageLimit: 100,
+  pageLimit: 5,
   title: "local"
 };

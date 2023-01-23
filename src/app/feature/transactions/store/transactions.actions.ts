@@ -40,7 +40,7 @@ export const fetchTransactionsFailure = createAction(
 
 export const fetchTransactionDetails = createAction(
   '[Transactions] Load Transaction Details',
-  props<{ transactionIds: string[], showLoading: boolean }>()
+  props<{ transactionIds: string[], trigger: 'FILTER' | 'LOAD_MORE' }>()
 );
 
 export const fetchTransactionDetailsSuccess = createAction(

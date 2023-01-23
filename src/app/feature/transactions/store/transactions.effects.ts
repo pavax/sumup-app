@@ -56,7 +56,10 @@ export class TransactionsEffects {
         TransactionsActions.loadMoreTransactionsSuccess),
       map(action => {
           let ids = action.data.map((r) => r.transaction_id);
-          return TransactionsActions.fetchTransactionDetails({transactionIds: ids, showLoading: true})
+          if (action.type === TransactionsActions.fetchTransactionsSuccess.type) {
+            return TransactionsActions.fetchTransactionDetails({transactionIds: ids, trigger: 'FILTER'})
+          }
+          return TransactionsActions.fetchTransactionDetails({transactionIds: ids, trigger: 'LOAD_MORE'})
         }
       ))
   });
