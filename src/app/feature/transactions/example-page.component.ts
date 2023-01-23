@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {delay, of} from "rxjs";
 
 
 @Component({
@@ -8,7 +9,7 @@ import {Component} from '@angular/core';
 export class ExamplePageComponent {
 
   fillerContent = Array.from(
-    { length: 50 },
+    {length: 50},
     () =>
       `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -16,5 +17,7 @@ export class ExamplePageComponent {
        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
   );
+
+  myContent$ = of(this.fillerContent).pipe(delay(2000));
 
 }

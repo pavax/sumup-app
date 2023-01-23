@@ -1,1 +1,10 @@
-<p *ngFor="let content of fillerContent">{{content}}</p>
+<div *ngIf="myContent$ | async as content">
+  <mat-list class="list-entry">
+    <mat-list-item class="day-list-item" *ngFor="let e of content">
+      {{e}}
+    </mat-list-item>
+  </mat-list>
+</div>
+
+
+

@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {OfflineDialogComponent} from "../components/dialog/offline.dialog.component";
 import {SwUpdate} from "@angular/service-worker";
 import {UpdateDialogComponent} from "../components/dialog/update.dialog.component";
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class CoreEffects {
@@ -33,6 +34,7 @@ export class CoreEffects {
 
   checkForSWUpdates$ = createEffect(() => {
     return timer(1000, 1000 * 60 * 60).pipe(
+      filter(() => environment.production),
       map(() => this.updates.checkForUpdate().then(() => console.log('checking for updates')))
     );
   }, {dispatch: false});
