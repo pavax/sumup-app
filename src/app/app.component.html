@@ -17,6 +17,7 @@
 
   <mat-sidenav-container class="app-sidenav-container"
                          [style.marginTop.px]="(isHandset$ | async) ? 56 : 0">
+
     <mat-sidenav #snav [mode]="(isHandset$ | async) ? 'over' : 'side'"
                  [fixedInViewport]="(isHandset$ | async)" fixedTopGap="56">
       <mat-nav-list>
@@ -24,8 +25,12 @@
         <a mat-list-item *ngIf="isLoggedIn$ | async" [routerLink]="['/logout']" (click)="logout()">Logout</a>
       </mat-nav-list>
     </mat-sidenav>
-    <mat-sidenav-content class="app-content">
-      <router-outlet></router-outlet>
+
+    <mat-sidenav-content>
+      <div class="app-content" role="main">
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
+
   </mat-sidenav-container>
 </div>

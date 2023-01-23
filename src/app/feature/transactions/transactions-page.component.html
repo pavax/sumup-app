@@ -74,28 +74,29 @@
       <!--<div class="day-summary" *cdkVirtualFor="let entry of viewModel.transactions">-->
       <div class="day-summary" *ngFor="let entry of viewModel.transactions;">
         <mat-list class="list-entry">
-          <mat-list-item>
+          <mat-list-item class="day-list-item">
             <!--           <mat-icon matListItemIcon>home</mat-icon>-->
             <h3 matListItemTitle>{{entry.day | date}}</h3>
             <span matListItemMeta class="list-meta total">{{entry.totalAmount | currency:'CHF'}}</span>
           </mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item *ngFor="let tx of entry.transactions; last as last; trackBy:identify"
+          <mat-list-item *ngFor="let tx of entry.transactions; first as first; last as last; trackBy:identify"
+                         [class.padding-list-item]="first"
                          [ngClass]="{'error': tx.failed, 'info': tx.isRefund, 'success': !tx.failed }">
             <mat-icon matListItemIcon>{{tx.icon}}</mat-icon>
             <span matListItemTitle [ngClass]="{'deleted': tx.failed}">{{tx.transaction_code}}</span>
             <div matListItemLine>
-              <span>{{tx.timestamp | date:'HH:mm'}}</span>
-              <span> - </span>
-              <span>{{tx.statusText}}</span>
+              {{tx.timestamp | date:'HH:mm'}} - {{tx.statusText}}
             </div>
-            <div matListItemLine *ngIf="tx.tip_amount ">
-              <span>Trinkgeld: {{tx.tip_amount | currency:'CHF'}}</span>
-            </div>
-            <div matListItemLine *ngIf="tx.payout_amount ">
-              <span>Auszahlung: {{tx.payout_amount | currency:'CHF'}}
-                (<small>Gebühr: {{tx.payout_feeAmount | currency:'CHF'}}</small>)</span>
-            </div>
+            <span matListItemLine *ngIf="tx.tip_amount ">
+              Trinkgeld: {{tx.tip_amount | currency:'CHF'}}
+            </span>
+            <span matListItemLine *ngIf="tx.payout_amount ">
+              Auszahlung: {{tx.payout_amount | currency:'CHF'}}
+            </span>
+            <span matListItemLine *ngIf="tx.payout_amount ">
+              Gebühr: {{tx.payout_feeAmount | currency:'CHF'}}
+            </span>
             <div matListItemMeta class="list-meta" [ngClass]="{'deleted': tx.failed}">
               {{tx.amount | currency:'CHF'}}
             </div>
