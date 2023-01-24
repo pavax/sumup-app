@@ -92,6 +92,7 @@ function convertToTransactionViewModel(transactions: Transaction[], details: Map
         failed: transaction.status === TransactionStatus.FAILED,
         icon: icon,
         amount: isRefundTx ? 0 - transaction.amount : transaction.amount,
+        origAmount: transactionDetails.amount,
         tip_amount: isRefundTx ? 0 : transactionDetails.tip_amount,
         payout_amount: isRefundTx ? 0 : payoutPaidEvents
           .map(value => value.amount)
@@ -185,6 +186,7 @@ export interface TransactionViewModel {
   icon: string;
   transaction_code: string;
   amount: number;
+  origAmount: number;
   tip_amount: number;
   payout_amount?: number;
   payout_feeAmount?: number;

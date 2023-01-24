@@ -1,20 +1,16 @@
 <h2 mat-dialog-title>Details zu {{selectedTransaction.transaction_code}}</h2>
 <mat-dialog-content>
   <mat-list class="list-entry">
-    <mat-list-item *ngFor="let event of entries" [ngClass]="event.status">
+    <mat-list-item *ngFor="let event of entries; last as last;" [ngClass]="event.status" lines="3">
       <mat-icon matListItemIcon>{{event.icon}}</mat-icon>
       <div matListItemTitle>
         {{event.amount | currency:'CHF'}}
       </div>
-      <div matListItemLine>
-        {{event.title}}
-      </div>
-      <div matListItemLine *ngIf="!!event.text">
+      {{event.timestamp | date:'dd.MM.yy HH:mm'}} - {{event.title}}
+      <ng-container *ngIf="!!event.text">
         {{event.text}}
-      </div>
-      <div matListItemLine>
-        {{event.timestamp | date:'medium'}}
-      </div>
+      </ng-container>
+      <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
     </mat-list-item>
   </mat-list>
 </mat-dialog-content>

@@ -39,7 +39,7 @@ export class TransactionDetailsDialogComponent {
       return {
         title: 'Transaktion erfolgreich',
         icon: 'start',
-        amount: transactionViewModel.amount,
+        amount: transactionViewModel.origAmount,
         timestamp: new Date(transactionViewModel.origTransactionTimestamp).getTime(),
         status: 'success',
       };
@@ -47,7 +47,7 @@ export class TransactionDetailsDialogComponent {
       return {
         title: 'Transaktion fehlgeschlagen',
         icon: 'cancel',
-        amount: transactionViewModel.amount,
+        amount: transactionViewModel.origAmount,
         timestamp: new Date(transactionViewModel.origTransactionTimestamp).getTime(),
         status: 'default',
       };
@@ -88,6 +88,7 @@ export class TransactionDetailsDialogComponent {
           result.title = `Ausgezahlt in ${payoutEvent.payout_reference}`;
           result.status = 'success';
           result.icon = 'paid';
+          result.text = 'Gebühr: ' + payoutEvent.fee_amount
         }
         return result
       });
