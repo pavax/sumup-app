@@ -4,6 +4,6 @@ export const environment = {
   sumup_clientId: '{SUMUP_CLIENTID}',
   sumup_redirectUri: '{SUMUP_REDIRECTURI}',
   sumup_logoutUrl: '{SUMUP_LOGOUTURL}',
-  pageLimit: 100,
+  pageLimit: 25,
   title: "{APP_TITLE}"
 };

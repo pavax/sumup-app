@@ -10,6 +10,9 @@ import {TransactionStatus} from "../../core/transactions-api.service";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {filter, map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {State} from "./store/transactions.reducer";
+import {TransactionDetailsDialogComponent} from "./components/transaction-details/transaction-details.dialog.component";
 
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
@@ -43,7 +46,10 @@ export class TransactionsPageComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject();
 
-  public constructor(private store: Store<any>, private fb: FormBuilder, private snackBar: MatSnackBar) {
+  public constructor(private readonly store: Store<State>,
+                     private readonly fb: FormBuilder,
+                     private readonly snackBar: MatSnackBar,
+                     private readonly dialog: MatDialog) {
   }
 
   ngOnDestroy(): void {
@@ -102,6 +108,10 @@ export class TransactionsPageComponent implements OnInit, OnDestroy {
       dateTo: this.prepareEndDate()?.toISOString(),
       statuses: this.filterForm.value.statuses || [],
     }));
+  }
+
+  showDetails(selectedTransaction: TransactionViewModel) {
+    this.dialog.open(TransactionDetailsDialogComponent, {data: selectedTransaction});
   }
 
   loadMore() {

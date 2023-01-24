@@ -24,12 +24,16 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {SharedModule} from "../../shared/shared.module";
-import {ExamplePageComponent} from "./example-page.component";
+import {ExamplePageComponent} from "./components/example/example-page.component";
+import {TransactionDetailsDialogComponent} from "./components/transaction-details/transaction-details.dialog.component";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     TransactionsPageComponent,
-    ExamplePageComponent
+    ExamplePageComponent,
+    TransactionDetailsDialogComponent
+
   ],
   imports: [
     CommonModule,
@@ -57,7 +61,8 @@ import {ExamplePageComponent} from "./example-page.component";
     MatToolbarModule,
     MatIconModule,
     MatExpansionModule,
-    ScrollingModule
+    ScrollingModule,
+    MatDialogModule
   ]
 })
 export class TransactionsModule {

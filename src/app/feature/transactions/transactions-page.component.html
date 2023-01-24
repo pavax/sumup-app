@@ -81,6 +81,7 @@
       <mat-divider></mat-divider>
       <mat-list-item *ngFor="let tx of entry.transactions; first as first; last as last; trackBy:identify"
                      [class.padding-list-item]="first"
+                     (click)="showDetails(tx)"
                      [ngClass]="{'error': tx.failed, 'info': tx.isRefund, 'success': !tx.failed }">
         <mat-icon matListItemIcon>{{tx.icon}}</mat-icon>
         <div matListItemTitle [ngClass]="{'deleted': tx.failed}">{{tx.transaction_code}}</div>

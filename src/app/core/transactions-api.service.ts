@@ -81,26 +81,27 @@ export interface Link {
   type: string;
 }
 
+export interface Event {
+  type: EventType;
+  amount: number;
+  status: EventStatus;
+  timestamp: string;
+}
 
 export interface PayoutEvent extends Event {
-
   fee_amount: number;
-
   deducted_amount: number;
   deducted_fee_amount: number;
+  payout_reference: string;
 }
 
 export interface RefundEvent extends Event {
 
 }
 
-export interface Event {
-
-  amount: number;
-  type: EventType;
-  status: EventStatus;
-  timestamp: string;
-
+export interface PayoutDeductionEvent extends Event {
+  paid_for: string;
+  fee_amount: number;
 }
 
 
