@@ -56,11 +56,6 @@ registerLocaleData(localeDECH);
     MatSnackBarModule,
     MatDialogModule,
     MatButtonModule
-  ],
-  providers: [
-    AuthService,
-    AuthGuardWithForcedLogin,
-    MatDateFnsModule
   ]
 })
 export class CoreModule {
@@ -68,6 +63,9 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
+        AuthService,
+        AuthGuardWithForcedLogin,
+        MatDateFnsModule,
         {provide: APP_INITIALIZER, useFactory: authAppInitializerFactory, deps: [AuthService], multi: true},
         {provide: AuthConfig, useValue: authConfig},
         {provide: OAuthModuleConfig, useValue: authModuleConfig},

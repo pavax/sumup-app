@@ -44,6 +44,8 @@ export class TransactionsPageComponent implements OnInit, OnDestroy {
 
   isReadOnly$ = this.store.select(CoreSelectors.selectHasNetworkConnectivity).pipe(map(value => !value));
 
+  selectedTransaction?: TransactionViewModel;
+
   private destroy$ = new Subject();
 
   public constructor(private readonly store: Store<State>,
@@ -110,13 +112,15 @@ export class TransactionsPageComponent implements OnInit, OnDestroy {
     }));
   }
 
-  selectedTransaction?: TransactionViewModel;
-
   showDetails(selectedTransaction: TransactionViewModel) {
     this.selectedTransaction = selectedTransaction;
+    //document.body.classList.add("cdk-global-scrollblock");
     this.dialog.open(TransactionDetailsDialogComponent, {data: selectedTransaction}).afterClosed()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.selectedTransaction = undefined)
+      .subscribe(() => {
+        //document.body.classList.remove("cdk-global-scrollblock");
+        this.selectedTransaction = undefined;
+      })
   }
 
   loadMore() {

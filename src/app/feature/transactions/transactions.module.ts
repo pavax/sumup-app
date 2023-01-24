@@ -27,6 +27,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {ExamplePageComponent} from "./components/example/example-page.component";
 import {TransactionDetailsDialogComponent} from "./components/transaction-details/transaction-details.dialog.component";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -62,8 +63,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatIconModule,
     MatExpansionModule,
     ScrollingModule,
-    MatDialogModule
-  ]
+    MatDialogModule,
+    MatTooltipModule
+  ],
 })
 export class TransactionsModule {
 }

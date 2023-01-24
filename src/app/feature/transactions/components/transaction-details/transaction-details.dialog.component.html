@@ -1,19 +1,24 @@
 <h2 mat-dialog-title>Details zu {{selectedTransaction.transaction_code}}</h2>
 <mat-dialog-content>
   <mat-list class="list-entry">
-    <mat-list-item *ngFor="let event of entries; last as last;" [ngClass]="event.status" lines="3">
+    <mat-list-item *ngFor="let event of entries; last as last;" [ngClass]="event.status">
       <mat-icon matListItemIcon>{{event.icon}}</mat-icon>
-      <div matListItemTitle>
+      <h3 matListItemTitle>
+        {{event.title}}
+      </h3>
+      <div matListItemLine>
+        {{event.timestamp | date:'dd.MM.yy HH:mm'}}
+      </div>
+      <div matListItemLine *ngIf="!!event.text">
+        <span [matTooltip]="event.text">{{event.text}}</span>
+      </div>
+      <div matListItemMeta [ngClass]="{'deleted': selectedTransaction.failed}">
         {{event.amount | currency:'CHF'}}
       </div>
-      {{event.timestamp | date:'dd.MM.yy HH:mm'}} - {{event.title}}
-      <ng-container *ngIf="!!event.text">
-        {{event.text}}
-      </ng-container>
       <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
     </mat-list-item>
   </mat-list>
 </mat-dialog-content>
-<mat-dialog-actions class="dialog-actions">
+<mat-dialog-actions align="center">
   <button mat-button [mat-dialog-close]="true">Schliessen</button>
 </mat-dialog-actions>

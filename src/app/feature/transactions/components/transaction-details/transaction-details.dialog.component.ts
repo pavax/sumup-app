@@ -37,7 +37,7 @@ export class TransactionDetailsDialogComponent {
   private createFirstEntry(transactionViewModel: TransactionViewModel) {
     if (!transactionViewModel.failed) {
       return {
-        title: 'Transaktion erfolgreich',
+        title: 'Bezahlung',
         icon: 'start',
         amount: transactionViewModel.origAmount,
         timestamp: new Date(transactionViewModel.origTransactionTimestamp).getTime(),
@@ -45,7 +45,7 @@ export class TransactionDetailsDialogComponent {
       };
     } else {
       return {
-        title: 'Transaktion fehlgeschlagen',
+        title: 'Fehlgeschlagen',
         icon: 'cancel',
         amount: transactionViewModel.origAmount,
         timestamp: new Date(transactionViewModel.origTransactionTimestamp).getTime(),
@@ -65,7 +65,7 @@ export class TransactionDetailsDialogComponent {
           title: '',
         };
         if (event.type === EventType.REFUND) {
-          result.title = "Zahlung erstattet";
+          result.title = "Rückerstattung";
           result.amount = 0 - result.amount;
           result.status = 'error';
           result.icon = 'arrow_circle_left';
@@ -77,18 +77,19 @@ export class TransactionDetailsDialogComponent {
           result.icon = 'arrow_circle_left';
           result.text = `Dieser Betrag wurde abgezogen, um eine frühere Rückerstattung von ${payoutDeductionEvent.paid_for} abzudecken.`
         } else if (event.type === EventType.PAYOUT && event.status === EventStatus.CANCELLED) {
-          result.title = "Zahlung abgebrochen (Komplette Rückerstattung)";
+          result.title = "Auszahlung abgebrochen";
           result.icon = 'error';
           result.amount = 0;
+          result.text = "Komplette Rückerstattung";
         } else if (event.type === EventType.PAYOUT && event.status === EventStatus.SCHEDULED) {
           result.title = "Ausstehende Auszahlung";
           result.icon = 'schedule';
         } else if (event.type === EventType.PAYOUT && event.status === EventStatus.PAID_OUT) {
           const payoutEvent = event as PayoutEvent;
-          result.title = `Ausgezahlt in ${payoutEvent.payout_reference}`;
+          result.title = `Ausgezahlt`;
           result.status = 'success';
           result.icon = 'paid';
-          result.text = 'Gebühr: ' + payoutEvent.fee_amount
+          result.text = `${payoutEvent.payout_reference} | Gebühr: ${payoutEvent.fee_amount}`
         }
         return result
       });
