@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 // Variables
-@link-color-active: #fafafa;
+@link-color-active: #e8e8e8;
 
 html, body {
   height: 100%;
@@ -9,15 +9,14 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  padding: 30px;
 }
 
-.mat-mdc-nav-list a.active {
-  background: @link-color-active;
+.mdc-list-item--activated, .mat-mdc-nav-list a.active {
+  background: @link-color-active;;
 }
 
 .narrow {
-  margin: 0 !important;
+  margin: 2vh 0 0 !important;
 }
 
 .mat-mdc-button {

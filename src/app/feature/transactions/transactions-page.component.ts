@@ -110,8 +110,13 @@ export class TransactionsPageComponent implements OnInit, OnDestroy {
     }));
   }
 
+  selectedTransaction?: TransactionViewModel;
+
   showDetails(selectedTransaction: TransactionViewModel) {
-    this.dialog.open(TransactionDetailsDialogComponent, {data: selectedTransaction});
+    this.selectedTransaction = selectedTransaction;
+    this.dialog.open(TransactionDetailsDialogComponent, {data: selectedTransaction}).afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.selectedTransaction = undefined)
   }
 
   loadMore() {

@@ -30,6 +30,16 @@
 }
 
 .list-entry {
+  border-radius: 20px;
+  border: 2px solid #afacac;
+
+  &:not(:first-of-type) {
+    margin-top: 2vh;
+  }
+
+  .day-total {
+    cursor: default;
+  }
 
   .success {
     .mdc-list-item--with-leading-icon, .mdc-list-item__start, .mdc-list-item__primary-text {
@@ -107,4 +117,9 @@
 
 .padding-list-item {
   padding-top: 5px;
+}
+
+.list-load-more {
+  margin-top: 2vh;
+  margin-bottom: 8vh;
 }
