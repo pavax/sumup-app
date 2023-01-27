@@ -57,18 +57,18 @@
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
-        <div>Trinkgeld</div>
-        <div matListItemMeta class="list-meta">{{viewModel.totalTip | currency:'CHF' }}</div>
+        <div>Gebühren</div>
+        <div matListItemMeta class="list-meta">{{viewModel.totalFeeAmount | currency:'CHF'}}</div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div>Ausstehend</div>
+        <div matListItemMeta class="list-meta">{{viewModel.totalPayoutScheduled | currency:'CHF' }}</div>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <div>Ausbezahlt</div>
-        <div matListItemMeta class="list-meta">{{viewModel.totalPayout | currency:'CHF' }}</div>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <div>Gebühren</div>
-        <div matListItemMeta class="list-meta">{{viewModel.totalFeeAmount | currency:'CHF'}}</div>
+        <div matListItemMeta class="list-meta">{{viewModel.totalPayoutPaid | currency:'CHF' }}</div>
       </mat-list-item>
     </mat-list>
 
@@ -85,7 +85,9 @@
                        [activated]="tx == selectedTransaction"
                        (click)="showDetails(tx)"
                        [ngClass]="{'error': tx.failed, 'info': tx.isRefund, 'success': !tx.failed }">
+
           <mat-icon matListItemIcon>{{tx.icon}}</mat-icon>
+
           <div matListItemTitle [ngClass]="{'deleted': tx.failed}">{{tx.transaction_code}}</div>
 
           <div matListItemLine>
@@ -96,11 +98,11 @@
             Trinkgeld: {{tx.tip_amount | currency:'CHF'}}
           </div>
 
-          <div matListItemLine *ngIf="tx.payout_amount ">
-            Auszahlung: {{tx.payout_amount | currency:'CHF'}}
+          <div matListItemLine *ngIf="tx.payout_paid_amount ">
+            Auszahlung: {{tx.payout_paid_amount | currency:'CHF'}}
           </div>
 
-          <div matListItemLine *ngIf="tx.payout_amount ">
+          <div matListItemLine *ngIf="tx.payout_feeAmount ">
             Gebühr: {{tx.payout_feeAmount | currency:'CHF'}}
           </div>
 

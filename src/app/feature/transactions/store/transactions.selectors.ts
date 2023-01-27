@@ -58,9 +58,8 @@ function convertToTransactionViewModel(transactions: Transaction[], details: Map
 
       const isRefundTx = transaction.type === TransactionType.REFUND;
 
-      const payoutPaidEvents = (transactionDetails.events || [])
-        .filter(value => value.type === EventType.PAYOUT)
-        .filter(value => value.status === EventStatus.PAID_OUT) as PayoutEvent[];
+      const payoutEvents = (transactionDetails.events || [])
+        .filter(value => value.type === EventType.PAYOUT) as PayoutEvent[];
 
       let status = '';
       let icon = '';
@@ -70,7 +69,7 @@ function convertToTransactionViewModel(transactions: Transaction[], details: Map
       } else if (transaction.status === TransactionStatus.REFUNDED) {
         status = 'Rückerstattung';
         icon = 'arrow_circle_left';
-      } else if (payoutPaidEvents.length) {
+      } else if (transaction.payouts_received) {
         status = 'Ausgezahlt';
         icon = 'paid';
       } else if (transaction.status === TransactionStatus.SUCCESSFUL) {
@@ -94,10 +93,15 @@ function convertToTransactionViewModel(transactions: Transaction[], details: Map
         amount: isRefundTx ? 0 - transaction.amount : transaction.amount,
         origAmount: transactionDetails.amount,
         tip_amount: isRefundTx ? 0 : transactionDetails.tip_amount,
-        payout_amount: isRefundTx ? 0 : payoutPaidEvents
+        payout_paid_amount: isRefundTx ? 0 : payoutEvents
+          .filter(value => value.status === EventStatus.PAID_OUT)
           .map(value => value.amount)
           .reduce(sum(), 0),
-        payout_feeAmount: isRefundTx ? 0 : payoutPaidEvents
+        payout_scheduled_amount: isRefundTx ? 0 : payoutEvents
+          .filter(value => value.status === EventStatus.SCHEDULED)
+          .map(value => value.amount)
+          .reduce(sum(), 0),
+        payout_feeAmount: isRefundTx ? 0 : payoutEvents
           .map(value => value.fee_amount)
           .reduce(sum(), 0),
         receiptUrl: transactionDetails.links
@@ -126,9 +130,13 @@ export const selectNewViewModel = createSelector(selectTransactions, selectTrans
         .filter(value => !value.failed)
         .map(value => value.tip_amount)
         .reduce(sum(), 0),
-      totalPayout: transactionViewModels
+      totalPayoutPaid: transactionViewModels
         .filter(value => !value.failed)
-        .map(value => value.payout_amount || 0)
+        .map(value => value.payout_paid_amount || 0)
+        .reduce(sum(), 0),
+      totalPayoutScheduled: transactionViewModels
+        .filter(value => !value.failed)
+        .map(value => value.payout_scheduled_amount || 0)
         .reduce(sum(), 0),
       totalFeeAmount: transactionViewModels
         .filter(value => !value.failed)
@@ -188,7 +196,8 @@ export interface TransactionViewModel {
   amount: number;
   origAmount: number;
   tip_amount: number;
-  payout_amount?: number;
+  payout_paid_amount?: number;
+  payout_scheduled_amount?: number;
   payout_feeAmount?: number;
   timestamp: number;
   origTransactionTimestamp: number;

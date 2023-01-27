@@ -150,6 +150,7 @@ export interface Transaction {
   status: TransactionStatus;
   timestamp: string;
   amount: number
+  payouts_received: boolean
 }
 
 export interface Payout {

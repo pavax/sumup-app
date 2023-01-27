@@ -9,8 +9,9 @@
       <div matListItemLine>
         {{event.timestamp | date:'dd.MM.yy HH:mm'}}
       </div>
-      <div matListItemLine *ngIf="!!event.text">
-        <span [matTooltip]="event.text">{{event.text}}</span>
+      <div matListItemLine *ngIf="!!event.text" [matTooltip]="event.text" matTooltipHideDelay="1500"
+           matTooltipTouchGestures="on">
+        <span>{{event.text}}</span>
       </div>
       <div matListItemMeta [ngClass]="{'deleted': selectedTransaction.failed}">
         {{event.amount | currency:'CHF'}}
