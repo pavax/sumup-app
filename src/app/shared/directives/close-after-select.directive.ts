@@ -1,17 +1,15 @@
-import {Directive, OnInit} from "@angular/core";
-import {MatSelect} from "@angular/material/select";
+import { Directive, OnInit } from '@angular/core';
+import { MatSelect } from '@angular/material/select';
 
 @Directive({
-  selector: '[close-after-select]'
+  selector: '[appCloseAfterSelect]',
 })
 export class CloseAfterSelectDirective implements OnInit {
-
-  constructor(private select: MatSelect) {
-  }
+  constructor(private select: MatSelect) {}
 
   ngOnInit() {
-    this.select.selectionChange.subscribe(value => {
+    this.select.selectionChange.subscribe(() => {
       this.select.close();
-    })
+    });
   }
 }

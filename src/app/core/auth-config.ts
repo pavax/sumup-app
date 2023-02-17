@@ -1,8 +1,7 @@
-import {AuthConfig} from "angular-oauth2-oidc";
-import {environment} from "../../environments/environment";
+import { AuthConfig } from 'angular-oauth2-oidc';
+import { environment } from '../../environments/environment';
 
 export const authConfig: AuthConfig = {
-
   loginUrl: 'https://api.sumup.com/authorize',
 
   tokenEndpoint: 'https://api.sumup.com/token',
@@ -35,4 +34,3 @@ export const authConfig: AuthConfig = {
 
   showDebugInformation: true,
 };
-

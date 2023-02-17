@@ -1,8 +1,12 @@
 <h2 mat-dialog-title>Neue Version verfügbar</h2>
-<mat-dialog-content>
-  Es gibt eine neue Version dieser App.
-</mat-dialog-content>
+<mat-dialog-content> Es gibt eine neue Version dieser App. </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button [mat-dialog-close]="true">Abbrechen</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="installUpdate()">Installieren</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [mat-dialog-close]="true"
+    (click)="installUpdate()">
+    Installieren
+  </button>
 </mat-dialog-actions>

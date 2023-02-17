@@ -1,51 +1,47 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {StoreModule} from '@ngrx/store';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
 import * as fromTransactions from './store/transactions.reducer';
-import {EffectsModule} from '@ngrx/effects';
-import {TransactionsEffects} from './store/transactions.effects';
-import {TransactionsPageComponent} from './transactions-page.component';
-import {HttpClientModule} from "@angular/common/http";
-import {RouterModule} from "@angular/router";
-import {MatFormFieldModule} from "@angular/material/form-field";
+import { EffectsModule } from '@ngrx/effects';
+import { TransactionsEffects } from './store/transactions.effects';
+import { TransactionsPageComponent } from './transactions-page.component';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatButtonModule} from "@angular/material/button";
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCardModule} from '@angular/material/card';
-import {MatTableModule} from "@angular/material/table";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatListModule} from "@angular/material/list";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatIconModule} from "@angular/material/icon";
-import {MatExpansionModule} from "@angular/material/expansion";
-import {ScrollingModule} from "@angular/cdk/scrolling";
-import {SharedModule} from "../../shared/shared.module";
-import {ExamplePageComponent} from "./components/example/example-page.component";
-import {TransactionDetailsDialogComponent} from "./components/transaction-details/transaction-details.dialog.component";
-import {MatDialogModule} from "@angular/material/dialog";
-import {MatTooltipModule} from "@angular/material/tooltip";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { SharedModule } from '../../shared/shared.module';
+import { TransactionDetailsDialogComponent } from './components/transaction-details/transaction-details.dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-  declarations: [
-    TransactionsPageComponent,
-    ExamplePageComponent,
-    TransactionDetailsDialogComponent
-
-  ],
+  declarations: [TransactionsPageComponent, TransactionDetailsDialogComponent],
   imports: [
     CommonModule,
     SharedModule,
     HttpClientModule,
     RouterModule.forChild([
-      {path: '', redirectTo: 'transactions', pathMatch: 'full'},
-      {path: 'transactions', component: TransactionsPageComponent},
-      {path: 'example', component: ExamplePageComponent},
+      { path: '', redirectTo: 'transactions', pathMatch: 'full' },
+      { path: 'transactions', component: TransactionsPageComponent },
     ]),
-    StoreModule.forFeature(fromTransactions.transactionsFeatureKey, fromTransactions.reducer),
+    StoreModule.forFeature(
+      fromTransactions.transactionsFeatureKey,
+      fromTransactions.reducer
+    ),
     EffectsModule.forFeature([TransactionsEffects]),
     FormsModule,
     ReactiveFormsModule,
@@ -64,8 +60,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatExpansionModule,
     ScrollingModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
 })
-export class TransactionsModule {
-}
+export class TransactionsModule {}

@@ -1,11 +1,8 @@
-import {NgModule} from "@angular/core";
-import {CloseAfterSelectDirective} from "./directives/close-after-select.directive";
+import { NgModule } from '@angular/core';
+import { CloseAfterSelectDirective } from './directives/close-after-select.directive';
 
 @NgModule({
-  declarations: [
-    CloseAfterSelectDirective,
-  ],
-  exports: [CloseAfterSelectDirective]
+  declarations: [CloseAfterSelectDirective],
+  exports: [CloseAfterSelectDirective],
 })
-export class SharedModule {
-}
+export class SharedModule {}

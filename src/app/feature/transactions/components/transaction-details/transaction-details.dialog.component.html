@@ -1,20 +1,26 @@
-<h2 mat-dialog-title>Details zu {{selectedTransaction.transaction_code}}</h2>
+<h2 mat-dialog-title>Details zu {{ selectedTransaction.transaction_code }}</h2>
 <mat-dialog-content>
   <mat-list class="list-entry">
-    <mat-list-item *ngFor="let event of entries; last as last;" [ngClass]="event.status">
-      <mat-icon matListItemIcon>{{event.icon}}</mat-icon>
+    <mat-list-item
+      *ngFor="let event of entries; last as last"
+      [ngClass]="event.status">
+      <mat-icon matListItemIcon>{{ event.icon }}</mat-icon>
       <h3 matListItemTitle>
-        {{event.title}}
+        {{ event.title }}
       </h3>
       <div matListItemLine>
-        {{event.timestamp | date:'dd.MM.yy HH:mm'}}
+        {{ event.timestamp | date : 'dd.MM.yy HH:mm' }}
       </div>
-      <div matListItemLine *ngIf="!!event.text" [matTooltip]="event.text" matTooltipHideDelay="1500"
-           matTooltipTouchGestures="on">
-        <span>{{event.text}}</span>
+      <div
+        matListItemLine
+        *ngIf="!!event.text"
+        [matTooltip]="event.text"
+        matTooltipHideDelay="1500"
+        matTooltipTouchGestures="on">
+        <span>{{ event.text }}</span>
       </div>
-      <div matListItemMeta [ngClass]="{'deleted': selectedTransaction.failed}">
-        {{event.amount | currency:'CHF'}}
+      <div matListItemMeta [ngClass]="{ deleted: selectedTransaction.failed }">
+        {{ event.amount | currency : 'CHF' }}
       </div>
       <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
     </mat-list-item>

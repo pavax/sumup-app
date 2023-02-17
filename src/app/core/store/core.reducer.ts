@@ -1,23 +1,24 @@
-import {createReducer, on} from "@ngrx/store";
-import * as CoreActions from "./core.actions";
+import { createReducer, on } from '@ngrx/store';
+import * as CoreActions from './core.actions';
 
 export interface CoreState {
   hasNetworkConnectivity: boolean;
 }
 
 export const initialState: CoreState = {
-  hasNetworkConnectivity: true
+  hasNetworkConnectivity: true,
 };
 
-export const FEATURE_NAME = "core";
+export const FEATURE_NAME = 'core';
 
-export const reducer = createReducer(initialState,
-  on(CoreActions.appOffline, (state) => ({
+export const reducer = createReducer(
+  initialState,
+  on(CoreActions.appOffline, state => ({
     ...state,
-    hasNetworkConnectivity: false
+    hasNetworkConnectivity: false,
   })),
-  on(CoreActions.appOnline, (state) => ({
+  on(CoreActions.appOnline, state => ({
     ...state,
-    hasNetworkConnectivity: true
-  })),
+    hasNetworkConnectivity: true,
+  }))
 );

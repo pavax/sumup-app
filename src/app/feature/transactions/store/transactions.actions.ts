@@ -1,9 +1,12 @@
-import {createAction, props} from '@ngrx/store';
-import {Payout, Transaction, TransactionDetail} from "../../../core/transactions-api.service";
+import { createAction, props } from '@ngrx/store';
+import {
+  Transaction,
+  TransactionDetail,
+} from '../../../core/transactions-api.service';
 
 export const fetchTransactions = createAction(
   '[Transactions] Load Transactions',
-  props<{ dateFrom?: string, dateTo?: string, statuses: string[] }>()
+  props<{ dateFrom?: string; dateTo?: string; statuses: string[] }>()
 );
 
 export const loadMoreTransactions = createAction(
@@ -25,7 +28,7 @@ export const notAllTranscationsLoaded = createAction(
 
 export const loadMoreTransactionsFailure = createAction(
   '[Transactions] Load Transactions Failure',
-  props<{ error: any }>()
+  props<{ error: unknown }>()
 );
 
 export const fetchTransactionsSuccess = createAction(
@@ -35,20 +38,20 @@ export const fetchTransactionsSuccess = createAction(
 
 export const fetchTransactionsFailure = createAction(
   '[Transactions] Load Transactions Failure',
-  props<{ error: any }>()
+  props<{ error: unknown }>()
 );
 
 export const fetchTransactionDetails = createAction(
   '[Transactions] Load Transaction Details',
-  props<{ transactionIds: string[], trigger: 'FILTER' | 'LOAD_MORE' }>()
+  props<{ transactionIds: string[]; trigger: 'FILTER' | 'LOAD_MORE' }>()
 );
 
 export const fetchTransactionDetailsSuccess = createAction(
   '[Transactions] Load Transaction Details Success',
-  props<{ data: TransactionDetail[], }>()
+  props<{ data: TransactionDetail[] }>()
 );
 
 export const fetchTransactionDetailsFailure = createAction(
   '[Transactions] Load Transaction Details Failure',
-  props<{ error: any }>()
+  props<{ error: unknown }>()
 );

@@ -1,6 +1,9 @@
-import {createReducer, on} from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as TransactionsActions from './transactions.actions';
-import {Transaction, TransactionDetail} from "../../../core/transactions-api.service";
+import {
+  Transaction,
+  TransactionDetail,
+} from '../../../core/transactions-api.service';
 
 export const transactionsFeatureKey = 'transactions';
 
@@ -8,12 +11,12 @@ export interface State {
   transactions: Transaction[];
   transactionDetails: TransactionDetail[];
   loading: boolean;
-  isLoadingMore: boolean,
+  isLoadingMore: boolean;
   filter?: {
     dateFrom?: string;
     dateTo?: string;
-    statuses: string[]
-  },
+    statuses: string[];
+  };
   allTransactionsLoaded: boolean;
 }
 
@@ -23,7 +26,7 @@ export const initialState: State = {
   loading: false,
   isLoadingMore: false,
   filter: undefined,
-  allTransactionsLoaded: false
+  allTransactionsLoaded: false,
 };
 
 export const reducer = createReducer(
@@ -36,33 +39,33 @@ export const reducer = createReducer(
       dateFrom: action.dateFrom,
       dateTo: action.dateTo,
       statuses: action.statuses,
-    }
+    },
   })),
   on(TransactionsActions.fetchTransactionsSuccess, (state, action) => ({
     ...state,
     transactions: [...action.data],
     transactionDetails: [],
-    allTransactionsLoaded: false
+    allTransactionsLoaded: false,
   })),
-  on(TransactionsActions.fetchTransactionsFailure, (state) => ({
+  on(TransactionsActions.fetchTransactionsFailure, state => ({
     ...state,
-    loading: false
+    loading: false,
   })),
 
-  on(TransactionsActions.loadMoreTransactions, (state) => ({
+  on(TransactionsActions.loadMoreTransactions, state => ({
     ...state,
-    isLoadingMore: true
+    isLoadingMore: true,
   })),
   on(TransactionsActions.loadMoreTransactionsSuccess, (state, action) => ({
     ...state,
     transactions: [...state.transactions, ...action.data],
-    isLoadingMore: false
+    isLoadingMore: false,
   })),
-  on(TransactionsActions.loadMoreTransactionsFailure, (state, action) => ({
+  on(TransactionsActions.loadMoreTransactionsFailure, state => ({
     ...state,
-    isLoadingMore: false
+    isLoadingMore: false,
   })),
-  on(TransactionsActions.fetchTransactionDetails, (state, action) => ({
+  on(TransactionsActions.fetchTransactionDetails, state => ({
     ...state,
     loading: true,
     isLoadingMore: true,
@@ -73,17 +76,17 @@ export const reducer = createReducer(
     loading: false,
     isLoadingMore: false,
   })),
-  on(TransactionsActions.fetchTransactionDetailsFailure, (state) => ({
+  on(TransactionsActions.fetchTransactionDetailsFailure, state => ({
     ...state,
     loading: false,
     isLoadingMore: false,
   })),
-  on(TransactionsActions.allTransactionsLoaded, (state) => ({
+  on(TransactionsActions.allTransactionsLoaded, state => ({
     ...state,
-    allTransactionsLoaded: true
+    allTransactionsLoaded: true,
   })),
-  on(TransactionsActions.notAllTranscationsLoaded, (state) => ({
+  on(TransactionsActions.notAllTranscationsLoaded, state => ({
     ...state,
-    allTransactionsLoaded: false
-  })),
+    allTransactionsLoaded: false,
+  }))
 );

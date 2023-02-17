@@ -1,4 +1,4 @@
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromTransactions from './transactions.reducer';
 import {
   Event,
@@ -9,57 +9,83 @@ import {
   Transaction,
   TransactionDetail,
   TransactionStatus,
-  TransactionType
-} from "../../../core/transactions-api.service";
+  TransactionType,
+} from '../../../core/transactions-api.service';
 
-export const selectTransactionsState = createFeatureSelector<fromTransactions.State>(
-  fromTransactions.transactionsFeatureKey
-);
-export const selectIsLoading = createSelector(selectTransactionsState, state => {
-  return state.loading;
-})
-
-export const selectIsLoadingMore = createSelector(selectTransactionsState, state => {
-  return state.isLoadingMore;
-})
-export const selectAllTransactionsLoaded = createSelector(selectTransactionsState, state => {
-  return state.allTransactionsLoaded;
-})
-export const selectTransactions = createSelector(selectTransactionsState, state => {
-  return state.transactions;
-})
-
-export const selectCurrentFilter = createSelector(selectTransactionsState, state => {
-  return state.filter;
-})
-
-export const selectOldestTx = createSelector(selectTransactions, transactions => {
-  return transactions[transactions.length - 1];
-})
-
-export const selectTransactionsDetailsMap = createSelector(selectTransactionsState, state => {
-  const groupedById: Map<string, TransactionDetail> = state.transactionDetails.reduce(
-    (entryMap, e) => entryMap.set(e.id, e),
-    new Map()
+export const selectTransactionsState =
+  createFeatureSelector<fromTransactions.State>(
+    fromTransactions.transactionsFeatureKey
   );
-  return groupedById;
-})
+export const selectIsLoading = createSelector(
+  selectTransactionsState,
+  state => {
+    return state.loading;
+  }
+);
 
+export const selectIsLoadingMore = createSelector(
+  selectTransactionsState,
+  state => {
+    return state.isLoadingMore;
+  }
+);
+export const selectAllTransactionsLoaded = createSelector(
+  selectTransactionsState,
+  state => {
+    return state.allTransactionsLoaded;
+  }
+);
+export const selectTransactions = createSelector(
+  selectTransactionsState,
+  state => {
+    return state.transactions;
+  }
+);
 
-function convertToTransactionViewModel(transactions: Transaction[], details: Map<string, TransactionDetail>): TransactionViewModel[] {
+export const selectCurrentFilter = createSelector(
+  selectTransactionsState,
+  state => {
+    return state.filter;
+  }
+);
+
+export const selectOldestTx = createSelector(
+  selectTransactions,
+  transactions => {
+    return transactions[transactions.length - 1];
+  }
+);
+
+export const selectTransactionsDetailsMap = createSelector(
+  selectTransactionsState,
+  state => {
+    const groupedById: Map<string, TransactionDetail> =
+      state.transactionDetails.reduce(
+        (entryMap, e) => entryMap.set(e.id, e),
+        new Map()
+      );
+    return groupedById;
+  }
+);
+
+function convertToTransactionViewModel(
+  transactions: Transaction[],
+  details: Map<string, TransactionDetail>
+): TransactionViewModel[] {
   return transactions
     .filter(value => !!details.get(value.transaction_id))
     .map(transaction => {
-      let transactionDetails = details.get(transaction.transaction_id);
+      const transactionDetails = details.get(transaction.transaction_id);
       if (!transactionDetails) {
-        throw new Error("Tx not found");
+        throw new Error('Tx not found');
       }
       const date = new Date(transaction.timestamp);
 
       const isRefundTx = transaction.type === TransactionType.REFUND;
 
-      const payoutEvents = (transactionDetails.events || [])
-        .filter(value => value.type === EventType.PAYOUT) as PayoutEvent[];
+      const payoutEvents = (transactionDetails.events || []).filter(
+        value => value.type === EventType.PAYOUT
+      ) as PayoutEvent[];
 
       let status = '';
       let icon = '';
@@ -93,33 +119,45 @@ function convertToTransactionViewModel(transactions: Transaction[], details: Map
         amount: isRefundTx ? 0 - transaction.amount : transaction.amount,
         origAmount: transactionDetails.amount,
         tip_amount: isRefundTx ? 0 : transactionDetails.tip_amount,
-        payout_paid_amount: isRefundTx ? 0 : payoutEvents
-          .filter(value => value.status === EventStatus.PAID_OUT)
-          .map(value => value.amount)
-          .reduce(sum(), 0),
-        payout_scheduled_amount: isRefundTx ? 0 : payoutEvents
-          .filter(value => value.status === EventStatus.SCHEDULED)
-          .map(value => value.amount)
-          .reduce(sum(), 0),
-        payout_feeAmount: isRefundTx ? 0 : payoutEvents
-          .map(value => value.fee_amount)
-          .reduce(sum(), 0),
+        payout_paid_amount: isRefundTx
+          ? 0
+          : payoutEvents
+              .filter(value => value.status === EventStatus.PAID_OUT)
+              .map(value => value.amount)
+              .reduce(sum(), 0),
+        payout_scheduled_amount: isRefundTx
+          ? 0
+          : payoutEvents
+              .filter(value => value.status === EventStatus.SCHEDULED)
+              .map(value => value.amount)
+              .reduce(sum(), 0),
+        payout_feeAmount: isRefundTx
+          ? 0
+          : payoutEvents.map(value => value.fee_amount).reduce(sum(), 0),
         receiptUrl: transactionDetails.links
           .filter(value => value.rel === LinkType.RECEIPT)
-          .filter(value => value.type === "image/png")
+          .filter(value => value.type === 'image/png')
           .map(value => value.href)
           .find(value => !!value),
       };
     });
 }
 
-export const selectNewViewModel = createSelector(selectTransactions, selectTransactionsDetailsMap, selectIsLoading, selectIsLoadingMore, selectAllTransactionsLoaded,
+export const selectNewViewModel = createSelector(
+  selectTransactions,
+  selectTransactionsDetailsMap,
+  selectIsLoading,
+  selectIsLoadingMore,
+  selectAllTransactionsLoaded,
   (transactions, details, loading, isLoadingMore, allTransactionsLoaded) => {
-    const transactionViewModels = convertToTransactionViewModel(transactions, details)
+    const transactionViewModels = convertToTransactionViewModel(
+      transactions,
+      details
+    );
     //.sort((a, b) => a.timestamp - b.timestamp).reverse();
     const results = toDayEntries(transactionViewModels);
 
-    let timestamps = transactionViewModels.map(value => value.timestamp);
+    const timestamps = transactionViewModels.map(value => value.timestamp);
     return {
       transactions: results,
       totalAmount: transactionViewModels
@@ -147,10 +185,11 @@ export const selectNewViewModel = createSelector(selectTransactions, selectTrans
       isLoadingMore: isLoadingMore,
       minTimestamp: timestamps.length ? Math.min(...timestamps) : undefined,
       maxTimestamp: timestamps.length ? Math.max(...timestamps) : undefined,
-    }
-  });
+    };
+  }
+);
 
-function sum(subtract: boolean = false): (sum: number, a: number) => number {
+function sum(subtract = false): (sum: number, a: number) => number {
   if (subtract) {
     return (sum: number, a: number) => sum - a;
   } else {
@@ -159,13 +198,14 @@ function sum(subtract: boolean = false): (sum: number, a: number) => number {
 }
 
 function toDayEntries(transactionViewModels: TransactionViewModel[]) {
-  const groupedByDate: Map<number, TransactionViewModel[]> = transactionViewModels.reduce(
-    (entryMap, e) => {
+  const groupedByDate: Map<number, TransactionViewModel[]> =
+    transactionViewModels.reduce((entryMap, e) => {
       const dayTimestamp = new Date(e.timestamp).setHours(0, 0, 0, 0);
-      return entryMap.set(dayTimestamp, [...entryMap.get(dayTimestamp) || [], e]);
-    },
-    new Map()
-  );
+      return entryMap.set(dayTimestamp, [
+        ...(entryMap.get(dayTimestamp) || []),
+        e,
+      ]);
+    }, new Map());
 
   const results: DayEntry[] = [];
 
@@ -177,14 +217,13 @@ function toDayEntries(transactionViewModels: TransactionViewModel[]) {
         .filter(value => !value.failed)
         .map(value1 => value1.amount)
         .reduce((partialSum, a) => partialSum + a, 0),
-    })
-  })
+    });
+  });
   return results;
 }
 
-
 export interface DayEntry {
-  day: number,
+  day: number;
   totalAmount: number;
   transactions: TransactionViewModel[];
 }
@@ -206,5 +245,4 @@ export interface TransactionViewModel {
   isRefund: boolean;
   receiptUrl?: string;
   events: Event[];
-
 }
